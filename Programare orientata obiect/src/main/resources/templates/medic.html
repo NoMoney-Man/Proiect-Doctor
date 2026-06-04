@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Control Medic</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<nav>
+    <div class="nav-info">
+        <span th:text="'Dr. ' + ${user.prenume} + ' ' + ${user.nume}"></span>
+        <span class="specializare-badge" th:text="${user.specializare}"></span>
+    </div>
+    </form>
+</nav>
+
+<div class="container">
+    <header>
+        <h2>Gestionare Programări Pacienți</h2>
+        <p>Lista completă a solicitărilor pentru specializarea dumneavoastră.</p>
+    </header>
+
+    <div class="table-wrapper">
+        <table border="1">
+            <thead>
+            <tr>
+                <th>Nume Pacient</th>
+                <th>Data Consultației</th>
+                <th>Ora Start</th>
+                <th>Status Actual</th>
+                <th>Acțiuni Disponibile</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="p : ${programari}">
+                <td th:text="${p.pacientNume}"></td>
+                <td th:text="${p.data}"></td>
+                <td th:text="${p.oraBg + ' - '+p.oraSf}"></td>
+                <td>
+                            <span th:text="${p.status}"
+                                  th:classappend="${p.status == 'Confirmata' ? 'status-ok' : (p.status == 'In asteptare' ? 'status-pending' : 'status-done')}">
+                            </span>
+                </td>
+                <td>
+                    <div class="action-cell">
+                        <form th:if="${p.status == 'In asteptare'}" action="/confirma-programare" method="POST" style="display:inline;">
+                            <input type="hidden" name="id" th:value="${p.id}">
+                            <button type="submit" class="btn-confirm">Confirmă</button>
+                        </form>
+
+                        <form th:if="${p.status == 'In asteptare'}" action="/anuleaza-programare" method="POST" style="display:inline;">
+                            <input type="hidden" name="id" th:value="${p.id}">
+                            <button type="submit" class="btn-deny" style="background-color: #ff4d4d; color: white;">Anulează</button>
+                        </form>
+
+                        <span th:unless="${p.status == 'In asteptare'}" class="no-action">Nicio acțiune necesară</span>
+                    </div>
+                </td>
+            </tr>
+            <tr th:if="${programari == null or programari.length == 0}">
+                <td colspan="5" style="text-align:center; padding: 20px;">Nu aveți programări înregistrate.</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<button type="button" onclick="window.location.href='/'" style="background-color: #ff4d4d; color: white;">Logout
+</button>
+</body>
+</html>

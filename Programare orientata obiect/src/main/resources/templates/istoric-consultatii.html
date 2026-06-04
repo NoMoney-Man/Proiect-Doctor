@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ro" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Istoric Consultații</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<div class="container">
+
+    <header>
+
+        <h1 th:text="'Istoric Consultații - ' + ${user.prenume} + ' ' + ${user.nume}"></h1>
+
+    </header>
+
+    <main>
+
+        <section class="table-section">
+
+            <h2>Consultațiile mele</h2>
+
+            <table border="1">
+
+                <thead>
+                <tr>
+                    <th>Medic</th>
+                    <th>Data</th>
+                    <th>Ora</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+
+                <tbody>
+
+                <tr th:each="p : ${consultatii}">
+                    <td th:text="${p.medicNume}"></td>
+                    <td th:text="${p.data}"></td>
+                    <td th:text="${p.oraBg + ' - ' + p.oraSf}"></td>
+                    <td th:text="${p.status}"></td>
+                </tr>
+
+                </tbody>
+
+            </table>
+            <nav>
+                <button type="button" onclick="window.location.href='/pacient'">
+                    Înapoi la Dashboard
+                </button>
+
+                <button type="button" onclick="window.location.href='/logout'">
+                    Deconectare
+                </button>
+            </nav>
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+</html>

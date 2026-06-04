@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Echipa Medicală</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<div class="container">
+
+    <h2>Medicii noștri</h2>
+
+    <table border="1">
+        <thead>
+        <tr>
+            <th>Doctor</th>
+            <th>Specializare</th>
+            <th>Email</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="m : ${listaMedici}">
+            <td th:text="'Dr. ' + ${m.nume + ' ' + m.prenume}"></td>
+            <td th:text="${m.specializare}"></td>
+            <td th:text="${m.email}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <br>
+
+    <form action="/pacient" method="get">
+        <button type="submit">Înapoi la Meniu</button>
+    </form>
+
+</div>
+
+</body>
+</html>

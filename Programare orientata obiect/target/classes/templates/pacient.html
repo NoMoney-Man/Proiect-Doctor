@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard Pacient</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .ore-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+        .ora-btn {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        .ora-libera {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .ora-libera:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .ora-ocupata {
+            background-color: #ffcccc;
+            color: red;
+            border: 1px solid red;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <nav>
+        <div class="nav-info">
+            🏥 DoctorOnline | <span th:text="'Bun venit, ' + ${user.prenume} + ' ' + ${user.nume}"></span>
+        </div>
+    </nav>
+
+    <div th:if="${eroare}" class="error-message" th:text="${eroare}"></div>
+
+    <h2>📅 Programări</h2>
+
+    <div class="card">
+        <form action="/pacient" method="GET" style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 20px;">
+            <select name="specializare" onchange="this.form.submit()" style="flex: 1; min-width: 150px; padding: 10px;">
+                <option value="">🔍 Alege specializarea</option>
+                <option value="Cardiologie" th:selected="${param.specializare != null and param.specializare[0] == 'Cardiologie'}">❤️ Cardiologie</option>
+                <option value="Dermatologie" th:selected="${param.specializare != null and param.specializare[0] == 'Dermatologie'}">🧴 Dermatologie</option>
+                <option value="Pediatrie" th:selected="${param.specializare != null and param.specializare[0] == 'Pediatrie'}">🧸 Pediatrie</option>
+            </select>
+
+            <input type="date" name="data" th:value="${param.data != null ? param.data[0] : ''}" onchange="this.form.submit()" style="flex: 1; min-width: 150px; padding: 10px;">
+        </form>
+
+        <div th:if="${param.specializare != null and param.specializare[0] != '' and param.data != null and param.data[0] != ''}">
+            <form action="/salveaza-programare" method="POST">
+                <input type="hidden" name="specializare" th:value="${param.specializare[0]}">
+                <input type="hidden" name="data" th:value="${param.data[0]}">
+
+                <div class="ore-container">
+                    <button type="submit" name="schimb" value="1" class="ora-btn"
+                            th:classappend="${oreOcupate != null and oreOcupate[1] ? 'ora-ocupata' : 'ora-libera'}"
+                            th:disabled="${oreOcupate != null and oreOcupate[1]}">
+                        8:00 - 9:00
+                    </button>
+                    <button type="submit" name="schimb" value="2" class="ora-btn"
+                            th:classappend="${oreOcupate != null and oreOcupate[2] ? 'ora-ocupata' : 'ora-libera'}"
+                            th:disabled="${oreOcupate != null and oreOcupate[2]}">
+                        9:00 - 10:00
+                    </button>
+                    <button type="submit" name="schimb" value="3" class="ora-btn"
+                            th:classappend="${oreOcupate != null and oreOcupate[3] ? 'ora-ocupata' : 'ora-libera'}"
+                            th:disabled="${oreOcupate != null and oreOcupate[3]}">
+                        10:00 - 11:00
+                    </button>
+                    <button type="submit" name="schimb" value="4" class="ora-btn"
+                            th:classappend="${oreOcupate != null and oreOcupate[4] ? 'ora-ocupata' : 'ora-libera'}"
+                            th:disabled="${oreOcupate != null and oreOcupate[4]}">
+                        11:00 - 12:00
+                    </button>
+                    <button type="submit" name="schimb" value="5" class="ora-btn"
+                            th:classappend="${oreOcupate != null and oreOcupate[5] ? 'ora-ocupata' : 'ora-libera'}"
+                            th:disabled="${oreOcupate != null and oreOcupate[5]}">
+                        12:00 - 13:00
+                    </button>
+                    <button type="submit" name="schimb" value="6" class="ora-btn"
+                            th:classappend="${oreOcupate != null and oreOcupate[6] ? 'ora-ocupata' : 'ora-libera'}"
+                            th:disabled="${oreOcupate != null and oreOcupate[6]}">
+                        13:00 - 14:00
+                    </button>
+                    <button type="submit" name="schimb" value="7" class="ora-btn"
+                            th:classappend="${oreOcupate != null and oreOcupate[7] ? 'ora-ocupata' : 'ora-libera'}"
+                            th:disabled="${oreOcupate != null and oreOcupate[7]}">
+                        14:00 - 15:00
+                    </button>
+                    <button type="submit" name="schimb" value="8" class="ora-btn"
+                            th:classappend="${oreOcupate != null and oreOcupate[8] ? 'ora-ocupata' : 'ora-libera'}"
+                            th:disabled="${oreOcupate != null and oreOcupate[8]}">
+                        15:00 - 16:00
+                    </button>
+                    <button type="submit" name="schimb" value="9" class="ora-btn"
+                            th:classappend="${oreOcupate != null and oreOcupate[9] ? 'ora-ocupata' : 'ora-libera'}"
+                            th:disabled="${oreOcupate != null and oreOcupate[9]}">
+                        16:00 - 17:00
+                    </button>
+                    <button type="submit" name="schimb" value="10" class="ora-btn"
+                            th:classappend="${oreOcupate != null and oreOcupate[10] ? 'ora-ocupata' : 'ora-libera'}"
+                            th:disabled="${oreOcupate != null and oreOcupate[10]}">
+                        17:00 - 18:00
+                    </button>
+                    <button type="submit" name="schimb" value="11" class="ora-btn"
+                            th:classappend="${oreOcupate != null and oreOcupate[11] ? 'ora-ocupata' : 'ora-libera'}"
+                            th:disabled="${oreOcupate != null and oreOcupate[11]}">
+                        18:00 - 19:00
+                    </button>
+                    <button type="submit" name="schimb" value="12" class="ora-btn"
+                            th:classappend="${oreOcupate != null and oreOcupate[12] ? 'ora-ocupata' : 'ora-libera'}"
+                            th:disabled="${oreOcupate != null and oreOcupate[12]}">
+                        19:00 - 20:00
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <h2>📋 Programările tale</h2>
+
+    <div class="table-wrapper">
+        <table>
+            <thead>
+            <tr>
+                <th>👨‍⚕️ Medic</th>
+                <th>📅 Data</th>
+                <th>⏰ Ora</th>
+                <th>📌 Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="p : ${programari}">
+                <td th:text="${p.medicNume}"></td>
+                <td th:text="${p.data}"></td>
+                <td th:text="${p.oraBg + ' - ' + p.oraSf}"></td>
+                <td>
+                    <span th:if="${p.status == 'Confirmata'}" class="status-ok">✅ Confirmată</span>
+                    <span th:if="${p.status == 'In asteptare'}" class="status-pending">⏳ În așteptare</span>
+                    <span th:if="${p.status == 'Finalizata'}" class="status-done">✔️ Finalizată</span>
+                    <span th:if="${p.status == 'Anulata'}" class="status-done" style="background-color: #999;">❌ Anulată</span>
+                </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(programari)}">
+                <td colspan="4" style="text-align:center; padding: 20px; color: #999;">
+                    📭 Nu aveți programări active
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="button-group">
+        <button type="button" onclick="window.location.href='/informatii'">
+            👤 Informații cont
+        </button>
+        <button type="button" onclick="window.location.href='/lista-medici'">
+            👨‍⚕️ Lista medici
+        </button>
+        <button type="button" onclick="window.location.href='/istoric-consultatii'">
+            📜 Istoric consultații
+        </button>
+        <button type="button" onclick="window.location.href='/logout'" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+            🚪 Logout
+        </button>
+    </div>
+
+</div>
+
+</body>
+</html>

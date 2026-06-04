@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Înregistrare Pacient | DoctorOnline</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .register-container {
+            max-width: 550px;
+            margin: 0 auto;
+        }
+
+        .register-card {
+            background: white;
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 25px;
+        }
+
+        .register-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .register-header h2 {
+            border-left: none;
+            padding-left: 0;
+            margin-bottom: 10px;
+        }
+
+        .register-header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
+        }
+
+        .form-group input:valid:not(:placeholder-shown) {
+            border-color: #4caf50;
+            background-color: #f0fff0;
+        }
+
+        .form-group input:invalid:not(:placeholder-shown) {
+            border-color: #f44336;
+            background-color: #fff0f0;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .btn-register {
+            width: 100%;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .btn-back {
+            background: #6c757d;
+            margin-top: 10px;
+        }
+
+        .btn-back:hover {
+            background: #5a6268;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .login-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+
+        .password-requirements {
+            font-size: 12px;
+            color: #999;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .register-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container register-container">
+
+    <nav>
+        <div class="nav-info">
+            🏥 DoctorOnline | <span>Înregistrare pacient</span>
+        </div>
+    </nav>
+
+    <div th:if="${eroare}" class="error-message" th:text="${eroare}"></div>
+    <div th:if="${success}" class="success-message" th:text="${success}"></div>
+
+    <div class="register-card">
+        <div class="register-header">
+            <h2>📝 Creare cont pacient</h2>
+            <p>Completează formularul pentru a te înregistra în platforma DoctorOnline</p>
+        </div>
+
+        <form action="/register-pacient" method="post">
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Nume *</label>
+                    <input type="text" name="nume" placeholder="Ex: Popescu"
+                           pattern="^[A-Za-z]+$"
+                           title="Doar litere sunt permise"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label>Prenume *</label>
+                    <input type="text" name="prenume" placeholder="Ex: Maria"
+                           pattern="^[A-Za-z]+$"
+                           title="Doar litere sunt permise"
+                           required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Email *</label>
+                <input type="email" name="email" placeholder="exemplu@email.com" required>
+            </div>
+
+            <div class="form-group">
+                <label>Telefon *</label>
+                <input type="text" name="nrTelefon" placeholder="0722123456"
+                       pattern="[0-9]{10}"
+                       title="Introdu exact 10 cifre"
+                       required>
+                <div class="password-requirements">📞 Format: 10 cifre (ex: 0722123456)</div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Data nașterii *</label>
+                    <input type="date" name="dataNasterii" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Gen *</label>
+                    <select name="gen" required>
+                        <option value="" disabled selected>Selectează genul</option>
+                        <option value="Masculin">👨 Masculin</option>
+                        <option value="Feminin">👩 Feminin</option>
+                        <option value="Nejustificat">🔘 Nejustificat</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Parolă *</label>
+                <input type="password" name="parola" placeholder="Minim 6 caractere" required>
+                <div class="password-requirements">🔒 Minim 6 caractere</div>
+            </div>
+
+            <button type="submit" class="btn-register">✅ Creează cont</button>
+        </form>
+
+        <div class="login-link">
+            Ai deja cont? <a href="/">Autentifică-te aici</a>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

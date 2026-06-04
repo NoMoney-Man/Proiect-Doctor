@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Informații Cont</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<div class="container">
+
+    <nav>
+        <div class="nav-info">
+            🏥 DoctorOnline | <span th:text="'Bun venit, ' + ${user.prenume}"></span>
+        </div>
+    </nav>
+
+    <h2>Profilul meu</h2>
+
+    <div class="table-wrapper">
+        <table>
+            <tbody>
+            <tr>
+                <th>Nume</th>
+                <td th:text="${user.nume}"></td>
+            </tr>
+            <tr>
+                <th>Prenume</th>
+                <td th:text="${user.prenume}"></td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td th:text="${user.email}"></td>
+            </tr>
+            <tr>
+                <th>Telefon</th>
+                <td th:text="${user.nrTelefon}"></td>
+            </tr>
+            <tr>
+                <th>Data Nașterii</th>
+                <td th:text="${user.dataNasterii}"></td>
+            </tr>
+            <tr>
+                <th>Gen</th>
+                <td th:text="${user.gen}"></td>
+            </tr>
+            <tr th:if="${user.getClass().simpleName == 'Medic'}">
+                <th>Specializare</th>
+                <td th:text="${user.specializare}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="button-group">
+        <button type="button" onclick="window.location.href='/pacient'">
+            ← Înapoi la Dashboard
+        </button>
+        <button type="button" onclick="window.location.href='/logout'" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+            🚪 Deconectare
+        </button>
+    </div>
+
+</div>
+
+</body>
+</html>
